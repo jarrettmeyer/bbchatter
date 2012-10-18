@@ -13,3 +13,17 @@
 //= require jquery
 //= require jquery_ujs
 //= require_tree .
+
+var setMessageWidth = function() {
+	var windowWidth = $(window).width();
+	$('#message').width(windowWidth - 24);
+};
+
+$(function() {
+	setMessageWidth();
+	
+	$(window).resize(function() {
+		setMessageWidth();
+	});
+
+});
