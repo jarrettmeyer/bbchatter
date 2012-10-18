@@ -1,6 +1,6 @@
 require 'chat_room'
 
-class MessagePoster
+class MessageCreator
 
     def self.add_message_to_room(room_key, text, name)
         chat_room = ChatRoom.find_by_room_key room_key
