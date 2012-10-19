@@ -1,0 +1,20 @@
+<h1>Edit message</h1>
+
+<form id="edit-message" name="message">
+  <div class="field">
+    <label for="text"> text:</label>
+    <textarea name="text" id="text"><%= text %></textarea>
+  </div>
+
+  <div class="field">
+    <label for="display_name"> display_name:</label>
+    <input type="text" name="display_name" id="display_name" value="<%= display_name %>" >
+  </div>
+
+  <div class="actions">
+    <input type="submit" value="Update Message" />
+  </div>
+
+</form>
+
+<a href="#/index">Back</a>
