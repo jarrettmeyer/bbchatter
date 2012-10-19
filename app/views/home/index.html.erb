@@ -4,11 +4,22 @@
 	<div class="chat-window row scroll-y">
 	</div>
 	<div class="footer row">
-		<textarea id="message" name="message">
+		<textarea id="text" name="text">
 		</textarea>
 	</div>
 </div>
 
-<script type="text/javascript">
-	$("#message").width();
+<script type="text/template" id="message-template">
+  <div class="message">
+    <div class="message-header">
+        <%- message_header_text %>
+    </div>
+    <div class="message-text">
+      <%- text %>
+    </div>
+  </div>
 </script>
+
+
+
+

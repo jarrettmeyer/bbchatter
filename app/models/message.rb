@@ -1,8 +1,8 @@
-class ChatMessage
-  attr_accessible :text, :user_display_name
-  belongs_to :chat_room
+class Message
+  attr_accessible :text, :display_name
+  belongs_to :chatroom
 
-  # chat_room_id
-  # user_display_name
+  # chatroom_id
+  # display_name
   # text
 end
