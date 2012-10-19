@@ -1,1 +1,4 @@
 var bbchatter = bbchatter || {};
+
+$(function() { 
+});

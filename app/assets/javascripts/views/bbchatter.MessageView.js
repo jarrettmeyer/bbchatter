@@ -1,6 +1,19 @@
 var bbchatter = bbchatter || {};
 
-bbchatter.NewMessageView = Backbone.View.extend({
+(function () { 
+  'use strict';
+
+  bbchatter.MessageView = Backbone.View.extend({
+
+    tagName: 'div',
+
+    // Cache the template for showing a single item.
+    template: _.template( $('#message-template').html() );
+
+  });
+});
+
+bbchatterMessageView = Backbone.View.extend({
 
   template: JST["backbone/templates/messages/new"],
 
