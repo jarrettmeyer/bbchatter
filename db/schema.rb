@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(:version => 20121019015313) do
   create_table "messages", :force => true do |t|
     t.text     "text"
     t.string   "display_name"
-    t.string   "chat_room_id"
+    t.string   "chatroom_id"
     t.string   "ip_address"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false

@@ -3,7 +3,7 @@ class CreateMessages < ActiveRecord::Migration
     create_table :messages do |t|
       t.text 			:text
       t.string 		:display_name
-      t.string		:chat_room_id
+      t.string		:chatroom_id
       t.string		:ip_address
 
       t.timestamps

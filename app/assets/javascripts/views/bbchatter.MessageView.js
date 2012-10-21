@@ -1,6 +1,6 @@
 var bbchatter = bbchatter || {};
 
-$(function () { 
+(function () { 
   'use strict';
 
   bbchatter.MessageView = Backbone.View.extend({
@@ -8,43 +8,43 @@ $(function () {
     tagName: 'div',
 
     // Cache the template for showing a single item.
-    template: _.template( $('#message-template').html() )
+    template: _.template( $('#message-template').html() );
 
   });
 });
 
-//bbchatterMessageView = Backbone.View.extend({
+bbchatterMessageView = Backbone.View.extend({
 
-//  template: JST["backbone/templates/messages/new"],
+  template: JST["backbone/templates/messages/new"],
 
-//  events: {
-    //"submit #new-message": "save"
-  //},
+  events: {
+    "submit #new-message": "save"
+  },
 
-  //render: function() {
-    //$(this.el).html(this.template(this.model.toJSON()));
-    //return this;
-  //},
+  render: function() {
+    $(this.el).html(this.template(this.model.toJSON()));
+    return this;
+  },
 
-  //save: function(e) {
-    //var self = this;
-    //e.preventDefault();
-    //e.stopPropagation();
+  save: function(e) {
+    var self = this;
+    e.preventDefault();
+    e.stopPropagation();
 
-    //self.model.unset('errors');
+    self.model.unset('errors');
 
-    //self.collection.create(self.model.toJSON(), {
-      //success: function(message) {
-        //self.model = message;
-        //window.location.hash = "/#" + self.model.id;
-      //},
-      //error: function(message, jqXHR) {
-        //self.model.set({ errors: $.parseJSON(jqXHR.responseText) });
-      //}
-    //});
-  //}
+    self.collection.create(self.model.toJSON(), {
+      success: function(message) {
+        self.model = message;
+        window.location.hash = "/#" + self.model.id;
+      },
+      error: function(message, jqXHR) {
+        self.model.set({ errors: $.parseJSON(jqXHR.responseText) });
+      }
+    });
+  }
 
-//});
+});
 
 
 

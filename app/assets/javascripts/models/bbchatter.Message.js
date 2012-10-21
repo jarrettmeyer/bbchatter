@@ -37,6 +37,3 @@ var bbchatter = bbchatter || {};
 
   });
 }());
-
-
-

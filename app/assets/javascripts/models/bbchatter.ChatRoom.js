@@ -4,6 +4,7 @@ var bbchatter = bbchatter || {};
 
   bbchatter.Chatroom = Backbone.Model.extend({
 
+
       defaults: {
         display_name: '',
         chatroom_name: '',
