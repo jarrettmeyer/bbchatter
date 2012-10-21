@@ -9,10 +9,11 @@ var bbchatter = bbchatter || {};
         display_name: '',
         chatroom_name: '',
         chatroom_id: '',
-        messages: new bbchatter.MessageCollection()
+        messages: new bbchatter.MessageCollection(),
+        room_type: ''
       },
 
-      postMessage: function(text) {
+      addMessage: function(text) {
         var self = this,
             message = new bbchatter.Message();
         message.set('text', text);

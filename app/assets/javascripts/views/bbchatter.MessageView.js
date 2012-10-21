@@ -8,14 +8,14 @@ var bbchatter = bbchatter || {};
     tagName: 'div',
 
     // Cache the template for showing a single item.
-    template: _.template( $('#message-template').html() );
+    template: _.template( $( '#message-template' ).html() )
 
   });
 });
 
 bbchatterMessageView = Backbone.View.extend({
 
-  template: JST["backbone/templates/messages/new"],
+  //template: JST["backbone/templates/messages/new"],
 
   events: {
     "submit #new-message": "save"
@@ -46,13 +46,4 @@ bbchatterMessageView = Backbone.View.extend({
 
 });
 
-
-
-//  constructor: (options) ->
-//    super(options)
-//    @model = new @collection.model()
-
-//    @model.bind("change:errors", () =>
-//      this.render()
-//    )
 

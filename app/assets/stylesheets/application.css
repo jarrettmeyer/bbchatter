@@ -21,3 +21,24 @@ html, body { margin: 0; padding: 0; }
 
 #chatter-form textarea { position: absolute; top: 10px; bottom: 10px; left: 10px; right: 100px; height: 90px; }
 #chatter-form button { position: absolute; top: 10px; right: 10px; height: 90px; width: 80px; }
+
+#overlay { 
+	position: absolute; top: 0; bottom: 0; left: 0; right: 0;
+	background-color: #000;
+
+}
+.overlay-content {
+	background-color: #fff;
+	color: #333;
+	width: 400px;
+	padding: 10px;
+	margin: 120px auto;
+}
+.overlay-content button {
+	padding: 8px 4px;
+}
+
+label.radio {
+	display: block;
+	margin-bottom: 3px;
+}

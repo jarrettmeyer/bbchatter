@@ -12,19 +12,8 @@
 //
 //= require jquery
 //= require jquery_ujs
-<<<<<<< HEAD
 //= require ./underscore-min.js
 //= require ./backbone-min.js
-=======
-//= require underscore
-//= require backbone
-//= require ./bbchatter.js
-//= require ./bbchatter.Message.js
-//= require ./bbchatter.MessageViews.js
-//= require ./bbchatter.MessageRouter.js
-//= require_tree .
->>>>>>> origin/master
-
 //= require ./models/bbchatter.Message.js
 //= require ./collections/bbchatter.MessageCollection.js
 //= require ./models/bbchatter.Chatroom.js
@@ -32,6 +21,5 @@
 //= require ./views/bbchatter.ChatroomView.js
 //= require ./routers/bbchatter.MessageRouter.js
 //= require ./bbchatter.js
-
 //= require_tree .
 

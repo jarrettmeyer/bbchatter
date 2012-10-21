@@ -1,7 +1,8 @@
-var bbchatter = bbchatter || {};
+var bbchatter = bbchatter || {},
+    app;
 
 $(function() { 
   
-    new bbchatter.ChatroomView();
+  app = new bbchatter.ChatroomView();
 
 });

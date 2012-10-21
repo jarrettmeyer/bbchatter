@@ -7,25 +7,33 @@ $(function ( $ ) {
   bbchatter.ChatroomView = Backbone.View.extend({
 
     el: "#chatroom",
-    form: $( '#chatter-form' ),
-    messageInput: $( '#message-text' ),
-    window: $( window ),
+    
+    events: {
+      "submit #chatter-form": "addMessage",
+      "click input[name=room_type]": "onJoinClicked",
+      "click #start-chatting": "start"
+    },
 
     initialize: function () {
-      this.bindFormSubmit();
+      //this.bindFormSubmit();
       this.model = new bbchatter.Chatroom();
     },
 
-    bindFormSubmit: function() {
+    start: function () {
+      console.log('start clicked');
+      this.model.display_name = $( '#display_name' ).val();
+      this.model.room_type = $( 'input[name=room_type]:checked' ).val();
+      $( '#overlay' ).hide();
+    },
+
+    addMessage: function ( e ) {
       var self = this,
-          text;
-      this.form.submit(function ( e ) {
-        e.preventDefault();
-        text = self.messageInput.val();
-        console.log('captured form submit: ' + text);
-        self.model.postMessage(text);
-        return false;
-      });
+          text = this.messageInput.val();
+
+      e.preventDefault();
+      e.stopPropagation();
+
+      self.model.addMessage(text);
     },
 
     //render: function () {
@@ -35,6 +43,14 @@ $(function ( $ ) {
     checkForNewMessages: function () {
 
     },
+
+    onJoinClicked: function () {
+      var value = $( 'input[name=room_type]:checked' ).val();
+      console.log('type: ' + value);
+      if (value === 'join') {
+        
+      }
+    }
 
   });
 });
