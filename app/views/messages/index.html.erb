@@ -1,0 +1,10 @@
+<div id="messages"></div>
+
+<script type="text/javascript">
+  $(function() {
+    window.router = new bbchatter.MessageRouter({messages: <%= @messages.to_json.html_safe -%>});
+    Backbone.history.start();
+  });
+</script>
+
+
