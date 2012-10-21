@@ -4,32 +4,37 @@ $(function ( $ ) {
   'use strict';
 
   // The ChatRoomView is the wrapper for the application.
-  bbchatter.ChatRoomView = Backbone.View.extend({
+  bbchatter.ChatroomView = Backbone.View.extend({
 
     el: "#chatroom",
-
+    form: $( '#chatter-form' ),
     messageInput: $( '#message-text' ),
-
     window: $( window ),
 
     initialize: function () {
-      var self = this;
-      //console.log('initializing chat room view');
-      self.window.resize(self.updateMessageInputWidth);
-      self.updateMessageInputWidth();
+      this.bindFormSubmit();
+      this.model = new bbchatter.Chatroom();
+    },
+
+    bindFormSubmit: function() {
+      var self = this,
+          text;
+      this.form.submit(function ( e ) {
+        e.preventDefault();
+        text = self.messageInput.val();
+        console.log('captured form submit: ' + text);
+        self.model.postMessage(text);
+        return false;
+      });
     },
 
     //render: function () {
     //  return this;
     //}
 
-    updateMessageInputWidth: function () {
-      var self = this,
-          screenWidth = self.window.width();
-      if (self.messageInput) {
-        self.messageInput.width(screenWidth - 24);
-      }
-    }
+    checkForNewMessages: function () {
+
+    },
 
   });
 });

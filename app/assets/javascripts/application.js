@@ -12,26 +12,16 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require underscore
-//= require backbone
-//= require backbone_rails_sync
-//= require backbone_datalink
+//= require ./underscore-min.js
+//= require ./backbone-min.js
+
+//= require ./models/bbchatter.Message.js
+//= require ./collections/bbchatter.MessageCollection.js
+//= require ./models/bbchatter.Chatroom.js
+//= require ./views/bbchatter.MessageView.js
+//= require ./views/bbchatter.ChatroomView.js
+//= require ./routers/bbchatter.MessageRouter.js
 //= require ./bbchatter.js
-//= require ./bbchatter.Message.js
-//= require ./bbchatter.MessageViews.js
-//= require ./bbchatter.MessageRouter.js
+
 //= require_tree .
 
-var setMessageWidth = function() {
-	var windowWidth = $(window).width();
-	$('#message').width(windowWidth - 24);
-};
-
-$(function() {
-	setMessageWidth();
-	
-	$(window).resize(function() {
-		setMessageWidth();
-	});
-
-});

@@ -24,7 +24,7 @@ var bbchatter = bbchatter || {};
     },
 
     validate: function () { 
-      validateText();
+      //validateText();
     },
 
     validateText: function () {

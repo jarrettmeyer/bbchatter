@@ -14,14 +14,10 @@
 
 html, body { margin: 0; padding: 0; }
 
-.row, .col { overflow: hidden; position: absolute; }
-.row { left: 0; right: 0; }
-.col { top: 0; bottom: 0; }
-.scroll-x { overflow-x: auto; }
-.scroll-y { overflow-y: auto; }
+#chatroom { }
+#chatroom-header { position: absolute; top: 0px; left: 0px; right: 0px; height: 80px; overflow: hidden; background: #eee; padding: 10px; }
+#chatroom-window { position: absolute; top: 90px; bottom: 110px; left: 0px; right: 0px; overflow-y: auto; }
+#chatroom-footer { position: absolute; left: 0px; right: 0px; bottom: 0px; height: 100px; background: #eee; padding: 10px; }
 
-.page { }
-.header { height: 80px; top: 0px; background: #eee; padding: 10px; }
-.chat-window { top: 90px; bottom: 110px; border: 1px solid #eee; }
-.footer { height: 100px; bottom: 0px; background: #eee; padding: 10px; }
-.footer textarea { height: 90px; text-align: center; }
+#chatter-form textarea { position: absolute; top: 10px; bottom: 10px; left: 10px; right: 100px; height: 90px; }
+#chatter-form button { position: absolute; top: 10px; right: 10px; height: 90px; width: 80px; }
