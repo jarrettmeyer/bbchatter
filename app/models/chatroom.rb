@@ -1,12 +1,20 @@
-class Chatroom
-  has_many :messages, :class_name => "chat_message"
+require 'random_string_generator'
+
+class Chatroom < ActiveRecord::Base
+	attr_accessible :room_name
+
+  has_many :messages
   
-  def generate_uuid
-    self.id = UUIDTools::UUID.random_create.to_s
+  before_create :set_room_key
+
+  KEY_LENGTH = 20
+
+  def set_room_key
+  	self.room_key = RandomStringGenerator.generate_string KEY_LENGTH
   end
 
-  # uuid
-  # room_name
-  # room_key
-  # created_by
 end
+
+# id: integer
+# room_key: string
+# room_name: string

@@ -23,17 +23,5 @@ var bbchatter = bbchatter || {};
 
     },
 
-    validate: function () { 
-      //validateText();
-    },
-
-    validateText: function () {
-      var value = attribute.text,
-          isValid = value && value.length && /\w/.test(value)
-      if (!isValid) {
-
-      }
-    }
-
   });
 }());

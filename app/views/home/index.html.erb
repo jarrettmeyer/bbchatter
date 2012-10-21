@@ -15,7 +15,7 @@
 	<div id="overlay">
 		<div class="overlay-content">
 			<div>
-				<label for="display_name">Display Name</label>
+				<label for="display_name">Your Name</label>
 				<input type="text" name="display_name" id="display_name"/>
 			</div>
 			<div>
@@ -27,6 +27,14 @@
 					<input type="radio" name="room_type" id="room_type_create" value="create"/>
 					Create a new chatroom
 				</label>
+			</div>
+			<div id="room_key_fields" style="display:none;">
+				<label for="room_key">Room Key</label>
+				<input type="text" id="room_key" name="room_key"/>
+			</div>
+			<div id="room_name_fields" style="display:none;">
+				<label for="room_name">Room Name</label>
+				<input type="text" id="room_name" name="room_name"/>
 			</div>
 			<div>
 				<button type="button" id="start-chatting">

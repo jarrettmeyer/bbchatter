@@ -11,15 +11,24 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121019015313) do
+ActiveRecord::Schema.define(:version => 20121021142522) do
+
+  create_table "chatrooms", :force => true do |t|
+    t.string   "room_key"
+    t.string   "room_name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "chatrooms", ["room_key"], :name => "index_chatrooms_on_room_key", :unique => true
 
   create_table "messages", :force => true do |t|
     t.text     "text"
     t.string   "display_name"
-    t.string   "chatroom_id"
     t.string   "ip_address"
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
+    t.integer  "chatroom_id"
   end
 
 end

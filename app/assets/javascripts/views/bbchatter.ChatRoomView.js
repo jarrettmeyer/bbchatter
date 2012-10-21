@@ -14,6 +14,8 @@ $(function ( $ ) {
       "click #start-chatting": "start"
     },
 
+    messageText: $( '#message-text' ),
+
     initialize: function () {
       //this.bindFormSubmit();
       this.model = new bbchatter.Chatroom();
@@ -21,34 +23,31 @@ $(function ( $ ) {
 
     start: function () {
       console.log('start clicked');
-      this.model.display_name = $( '#display_name' ).val();
-      this.model.room_type = $( 'input[name=room_type]:checked' ).val();
+      this.model.set('display_name', $( '#display_name' ).val());
+      this.model.set('room_name', $( '#room_name' ).val());
+      this.model.set('room_key', $( '#room_key' ).val());
       $( '#overlay' ).hide();
+      this.model.start();
     },
 
     addMessage: function ( e ) {
-      var self = this,
-          text = this.messageInput.val();
-
       e.preventDefault();
       e.stopPropagation();
-
-      self.model.addMessage(text);
-    },
-
-    //render: function () {
-    //  return this;
-    //}
-
-    checkForNewMessages: function () {
-
+      this.model.addMessage( this.messageText.val() );
+      return false;
     },
 
     onJoinClicked: function () {
       var value = $( 'input[name=room_type]:checked' ).val();
-      console.log('type: ' + value);
-      if (value === 'join') {
-        
+      //console.log('type: ' + value);
+      if ( value === 'create' ) {
+        this.model.room_type = 'create';
+        $( '#room_key_fields' ).slideUp();
+        $( '#room_name_fields' ).slideDown();
+      } else {
+        this.model.room_type = 'join';
+        $( '#room_name_fields' ).slideUp();
+        $( '#room_key_fields' ).slideDown();
       }
     }
 

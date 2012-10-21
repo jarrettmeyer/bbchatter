@@ -1,6 +1,10 @@
 Bbchatter::Application.routes.draw do
-  resources :messages
 
+  match 'messages' => 'messages#create', :via => :post
+
+  match 'chatrooms' => 'chatrooms#create', :via => :post
+  
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
