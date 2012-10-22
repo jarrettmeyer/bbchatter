@@ -37,19 +37,7 @@ $(function ( $ ) {
       return false;
     },
 
-    onJoinClicked: function () {
-      var value = $( 'input[name=room_type]:checked' ).val();
-      //console.log('type: ' + value);
-      if ( value === 'create' ) {
-        this.model.room_type = 'create';
-        $( '#room_key_fields' ).slideUp();
-        $( '#room_name_fields' ).slideDown();
-      } else {
-        this.model.room_type = 'join';
-        $( '#room_name_fields' ).slideUp();
-        $( '#room_key_fields' ).slideDown();
-      }
-    }
+    
 
   });
 });

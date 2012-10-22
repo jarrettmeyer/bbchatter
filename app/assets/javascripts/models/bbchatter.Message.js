@@ -6,8 +6,7 @@ var bbchatter = bbchatter || {};
   bbchatter.Message = Backbone.Model.extend({
     
     paramRoot: 'message',
-    urlRoot: '',
-
+    
     defaults: {
       display_name: '',
       text: '',
@@ -16,12 +15,7 @@ var bbchatter = bbchatter || {};
     },
 
     initialize: function() {
-      console.log('creating new bbchatter.Message');
-    },
-
-    headerText: function() {
-
-    },
+    }
 
   });
 }());

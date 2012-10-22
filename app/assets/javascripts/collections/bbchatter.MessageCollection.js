@@ -6,18 +6,17 @@ bbchatter.MessageCollection = Backbone.Collection.extend({
 
     url: '/messages',
 
-    addMessage: function ( message ) {
-    	var self = this;
-    	console.log( 'posting to URL: ' + this.url );
-    	messageAsJson = message.toJSON();
-    	console.log( 'message: ' + messageAsJson );
-    	$.post(this.url, message.toJSON(), function (response) {
-    		self.push( new bbchatter.Message( response.message ) );
-    	});
-    },
+    el: '#chatroom-window',
 
-    setRoomKey: function ( room_key ) {
-    	//this.url = '/chatroom/' + room_key + '/messages';
+    addMessage: function ( message ) {
+    	var self = this, newMessage, newView, i;
+    	$.post(this.url, message.toJSON(), function (response) {
+    		for (i = 0; i < response.length; i++) {
+  				self.add( response[i] );
+  				newView = new bbchatter.MessageView({ model: response[i] });
+  				newView.render();
+    		};
+    	});
     }
 
 });

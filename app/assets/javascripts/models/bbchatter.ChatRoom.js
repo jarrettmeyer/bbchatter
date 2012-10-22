@@ -4,62 +4,72 @@ var bbchatter = bbchatter || {};
 
   bbchatter.Chatroom = Backbone.Model.extend({
 
-      url: '/chatrooms',
+    isFetchStarted: false,
 
-      timeout: 3 * 1000,  // 3 seconds
+    url: '/chatrooms',
 
-      defaults: {
-        id: 0,
-        display_name: '',
-        room_key: '',
-        room_name: '',
-        room_type: ''
-      },
+    timeout: 3 * 1000,  // 3 seconds
 
-      initialize: function () {
-        this.messages = new bbchatter.MessageCollection();
-      },
+    defaults: {
+      id: 0,
+      display_name: '',
+      room_key: '',
+      room_name: '',
+      room_type: ''
+    },
 
-      start: function () {
-        if (this.room_type === 'create') {
-          this.createChatroom();
-        } else {
-          this.joinChatroom();
-        }
-      },
+    initialize: function () {
+      this.messages = new bbchatter.MessageCollection();
+    },
 
-      addMessage: function ( text ) {
-        var newMessage = new bbchatter.Message();
+    start: function () {
+      if (this.room_type === 'create') {
+        this.createChatroom();
+      } else {
+        this.joinChatroom();
+      }
+    },
 
-        newMessage.set('text', text);
-        newMessage.set('display_name', this.get('display_name'));
-        newMessage.set('chatroom_id', this.get('id'));
+    addMessage: function ( text ) {
+      var newMessage = new bbchatter.Message();
 
-        this.messages.addMessage( newMessage );
-      },
+      newMessage.set('text', text);
+      newMessage.set('display_name', this.get('display_name'));
+      newMessage.set('chatroom_id', this.get('id'));
 
-      createChatroom: function () {
-        var self = this;
-        $.post(self.url, { room_name: self.get('room_name') }, function (response) {
+      this.messages.addMessage( newMessage );
+    },
+
+    createChatroom: function () {
+      var self = this;
+      $.post(self.url, { room_name: self.get('room_name') }, function (response) {
+        self.set('id', response.id);
+        self.set('room_key', response.room_key);
+        self.beginFetchingMessages();
+      });
+    },
+
+    joinChatroom: function () {
+      var self = this;
+      $.post(self.url + '/join', { room_key: self.get('room_key') }, function (response) {
+        if (response && response.id) {
           self.set('id', response.id);
           self.set('room_key', response.room_key);
-          self.messages.setRoomKey( response.room_key );
+          self.set('room_name', response.room_name);
           self.beginFetchingMessages();
-          //console.log('created chatroom with id ' + response.id + ' and key ' + response.room_key);
-        });
-      },
+        }
+      });
+    },
 
-      joinChatroom: function () {
-        var self = this;
-      },
+    beginFetchingMessages: function () {
+      var self = this;
+      setInterval( self.fetchMessages, self.timeout );
+      console.log( 'set interval is started' );
+    },
 
-      beginFetchingMessages: function () {
-        setInterval( this.timeout, this.fetchMessages );
-      },
-
-      fetchMessages: function () {
-        console.log('fetching...');
-      }
+    fetchMessages: function () {
+      console.log('fetching...');
+    }
 
   });
 
