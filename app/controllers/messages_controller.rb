@@ -14,15 +14,14 @@ class MessagesController < ApplicationController
     @message.set_new_values params
     @message.save!
 
-    @messages = get_messages @chatroom_id
-
     #render :json => @messages, :status => :created
-    render :json => [], :status => :created
+    render :json => [@message], :status => :created
   end
 
   def get_messages( chatroom_id )
-    last_fetch_at = set_last_fetch chatroom_id
-    messages = Message.where("chatroom_id = ? and created_at >= ?", chatroom_id, last_fetch_at)
+    # Get messages for the last 10 seconds.
+    since = Time.now - 10
+    messages = Message.where("chatroom_id = ? and created_at >= ?", chatroom_id, since)
     messages
   end
 

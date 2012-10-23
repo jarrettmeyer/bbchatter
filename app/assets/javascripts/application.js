@@ -26,6 +26,7 @@ $(function() {
 	app.fetchIntervalInMS = 3000;
 	app.getMessagesUrl = '/messages';
 	app.joinChatroomUrl = '/chatrooms/join';
+	app.knownIds = [];
 	app.room_key = '';
 	app.room_name = '';
 	app.room_type = 'create';
@@ -38,7 +39,16 @@ $(function() {
 					index;
 
 			for ( index = 0; index < count; index += 1 ) {
-				date = new Date(messages[index].created_at);
+				if ( app.isKnownId( messages[index].id ) ) {
+					// This is an ID that we are already tracking. Do not add it to
+					// the page a second time.
+					continue;
+				} 
+				
+				// Not a known ID so add it to the list of known IDs.
+				app.knownIds.push( messages[index].id );
+				
+				date = new Date( messages[index].created_at );
 				content = '<div class="message"><div class="message-header">';
 				content += messages[index].display_name + ' [' + app.formatDate( date ) + ']';
 				content += '</div><div class="message-body">';
@@ -78,17 +88,30 @@ $(function() {
 	};
 
 	app.formatDate = function ( date ) {
-		var day = date.getDate(), 
-				month = date.getMonth() + 1, 
+		var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+				day = date.getDate(), 
+				month = date.getMonth(), 
 				year = date.getFullYear(), 
-				hour = date.getHours(), 
-				minute = date.getMinutes(),
+				hours = date.getHours(), 
+				minutes = date.getMinutes(),
 				seconds = date.getSeconds();
 		
-		minute = app.padLeadingZero( minute );
+		month = months[ month ];
+		minutes = app.padLeadingZero( minutes );
 		seconds = app.padLeadingZero( seconds );
 
-		return day + '-' + month + '-' + year + ' ' + hour + ':' + minute + ':' + seconds;
+		return day + '-' + month + '-' + year + ' ' + hours + ':' + minutes + ':' + seconds;
+	};
+
+	app.isKnownId = function ( id ) {
+		var index, returnValue = false;
+		for ( index = 0; index < app.knownIds.length; index += 1 ) {
+			if ( id === app.knownIds[index] ) {
+				returnValue = true;
+				break;
+			}
+		}
+		return returnValue;
 	};
 
 	app.joinChatroom = function () {
