@@ -1,21 +1,25 @@
 class MessagesController < ApplicationController
   
   def index
-    @messages = get_messages params[:chatroom_id].to_i
+    @chatroom_id = get_chatroom_id params 
+    @messages = get_messages @chatroom_id
     render :json => @messages, :status => :ok
   end
 
   def create
-    @chatroom_id = params[:chatroom_id].to_i
-    @last_fetch_at = set_last_fetch @chatroom_id
+    @chatroom_id = get_chatroom_id params
     
     @chatroom = Chatroom.find_by_id @chatroom_id
-    @message = @chatroom.messages.build
-    @message.set_new_values params
+    @message = @chatroom.messages.build.with_new_values params
     @message.save!
 
-    #render :json => @messages, :status => :created
-    render :json => [@message], :status => :created
+    render :json => [ @message ], :status => :created
+  end
+
+private
+
+  def get_chatroom_id( params )
+    chatroom_id = params[ :chatroom_id ].to_i
   end
 
   def get_messages( chatroom_id )

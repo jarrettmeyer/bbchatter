@@ -7,9 +7,12 @@ class Message < ActiveRecord::Base
   validates_presence_of :display_name
   validates_presence_of :text
 
-  def set_new_values( params )
+  def with_new_values( params )
+  	raise "Unable to set values on existing record" unless new_record?
+
   	self.text = params[:text]
   	self.display_name = params[:display_name]
+  	self
   end
 
 end
