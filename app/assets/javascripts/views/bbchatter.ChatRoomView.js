@@ -6,38 +6,43 @@ $(function ( $ ) {
   // The ChatRoomView is the wrapper for the application.
   bbchatter.ChatroomView = Backbone.View.extend({
 
+    createMessageUrl: '/messages',
     el: "#chatroom",
-    
-    events: {
-      "submit #chatter-form": "addMessage",
-      "click input[name=room_type]": "onJoinClicked",
-      "click #start-chatting": "start"
+    latestMessagesUrl: '/messages/latest',
+    messageInput: $( '#message-text' ),
+    messages: [],
+    model: null,
+
+    initialize: function ( options ) {
+      this.model = ( options && options.model ) || new bbchatter.Chatroom();
     },
 
-    messageText: $( '#message-text' ),
+    addMessage: function ( messageText ) {
+      var message = new bbchatter.Message({ text: messageText, is_owned: true }),
+          messageView,
+          self = this;
 
-    initialize: function () {
-      //this.bindFormSubmit();
-      this.model = new bbchatter.Chatroom();
+      this.model.addMessage( message );
+
+      $.post(this.createMessageUrl, message.toJSON(), function ( response ) { 
+        message.set( 'id', response.id );
+      });
+
+      messageView = new bbchatter.MessageView({ model: message })
+      messageView.render();
+      
+      return messageView;
     },
 
-    start: function () {
-      console.log('start clicked');
-      this.model.set('display_name', $( '#display_name' ).val());
-      this.model.set('room_name', $( '#room_name' ).val());
-      this.model.set('room_key', $( '#room_key' ).val());
-      $( '#overlay' ).hide();
-      this.model.start();
-    },
-
-    addMessage: function ( e ) {
-      e.preventDefault();
-      e.stopPropagation();
-      this.model.addMessage( this.messageText.val() );
-      return false;
-    },
-
-    
+    fetchLatestMessages: function () {
+      var index, self = this, message;
+      $.get(this.latestMessagesUrl, function ( response ) {
+        for (index = 0; index < response.length; index += 1) {
+          message = new bbchatter.Message( response[index] );
+          self.model.addMessage( message );
+        }
+      });
+    }
 
   });
 });

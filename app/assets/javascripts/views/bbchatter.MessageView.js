@@ -5,20 +5,20 @@ $(function () {
 
   bbchatter.MessageView = Backbone.View.extend({
 
-    messageContainer: $( '#chatroom-window' ),
-
-    tagName: 'div',
+    tagName: 'li',
+    
+    className: 'message',
+    
+    container: $( '#messages' ),
 
     // Cache the template for showing a single item.
     template: _.template( $( '#message-template' ).html() ),
 
     render: function () {
-      console.log( 'rendering view' );
-      var content = this.template( this.model.toJSON );
-      $( this.messageContainer ).append( content );
+      var content = this.template( this.model.toJSON() );
+      this.container.append( content );
       return this;
     }
 
   });
 });
-
