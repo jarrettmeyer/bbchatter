@@ -27,11 +27,11 @@ $(function() {
 
 	// Variable declarations.
 	app.chatroom_id = 0;
-	app.createChatroomUrl = '';
-	app.createMessageUrl = '/messages';
+	app.createChatroomUrl = '/chatrooms';
+	app.createMessageUrl = null;
 	app.display_name = '';
 	app.fetchIntervalInMS = 3000;
-	app.getMessagesUrl = '/messages';
+	app.getMessagesUrl = null;
 	app.joinChatroomUrl = '/chatrooms/join';
 	app.knownIds = [];
 	app.room_key = '';
