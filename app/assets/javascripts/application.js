@@ -12,6 +12,13 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require underscore-min
+//= require backbone-min
+//= require ./models/bbchatter.Message.js
+//= require ./collections/bbchatter.MessageCollection.js
+//= require ./models/bbchatter.Chatroom.js
+//= require ./views/bbchatter.MessageView.js
+//= require ./views/bbchatter.ChatroomView.js
 
 var app = {};
 

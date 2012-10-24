@@ -9,6 +9,7 @@ var bbchatter = bbchatter || {};
       chatroom_id: 0,
       created_at: '',
       display_name: '',
+      id: 0,
       is_owned: false,
       optional_class: '',
       text: '',

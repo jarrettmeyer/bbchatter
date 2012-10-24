@@ -7,45 +7,40 @@ var bbchatter = bbchatter || {};
     defaults: {
       display_name: '',
       id: 0,
-      messages: new bbchatter.MessageCollection(),
-      message_ids: [],
+      messages: null,
       room_key: '',
       room_name: ''    
     },
 
-    addMessage: function ( messageProperties ) {
+    initialize: function () {
+      if ( !this.get( 'messages' )) {
+        this.set( 'messages', new bbchatter.MessageCollection() );
+      }
+    },
+
+    // Add message will add a new message to the collection as long the
+    // ID doesn't already exist in the message collection.
+    addMessage: function ( message ) {
+      var messageId = message.get( 'id' ),
+          matchingIds = this.get( 'messages' ).where({ id: messageId });
+          returnValue = false;
+
+      if ( !matchingIds.length ) {
+        this.get( 'messages' ).add( message );
+        returnValue = true;
+      }
+
+      return returnValue;
+    },
+
+    // Build message functions similarly to the Rail association
+    // build() method.
+    buildMessage: function( messageProperties ) {
       var message = new bbchatter.Message( messageProperties );
       message.set( 'chatroom_id', this.get( 'id' ) );
       message.set( 'display_name', this.get( 'display_name') );
       this.get( 'messages' ).add( message );
       return message;
-    },
-
-    addMessageId: function ( messageId ) {
-      var returnValue = false;
-      if ( messageId && !this.containsMessageId( messageId ) ) {
-        this.get( 'message_ids' ).push( messageId );
-        returnValue = true;
-      }
-      return returnValue;
-    },
-
-    containsMessageId: function ( messageId ) {
-      var index, 
-          count = this.get( 'message_ids' ).length,
-          returnValue = false;
-      for ( index = 0; index < count; index += 1 ) {
-        if ( this.get( 'message_ids' )[index] === messageId ) {
-          returnValue = true;
-          break;
-        }
-      }
-      return returnValue;
-    },
-
-    reset: function () {      
-      this.get( 'messages' ).reset();
-      this.messageCount = this.get( 'messages' ).length;
     }
 
   });

@@ -5,7 +5,7 @@ $(function () {
 
   bbchatter.MessageView = Backbone.View.extend({
 
-    tagName: 'li',
+    tagName: 'div',
     
     className: 'message',
     
@@ -16,7 +16,10 @@ $(function () {
 
     render: function () {
       var content = this.template( this.model.toJSON() );
+      console.log( 'content: ' + content );
+      console.log( 'container: ' + this.container.html() );
       this.container.append( content );
+      console.log( 'rendered message: ' + this.model.get( 'text' ) );
       return this;
     }
 
