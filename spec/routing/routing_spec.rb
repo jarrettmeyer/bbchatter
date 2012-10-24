@@ -2,7 +2,7 @@ require "spec_helper"
 
 describe "application routing" do
 	
-	it "can handle the default route" do
+	it "can handle the root route" do
 		{ :get => "/" }.should route_to( :controller => "home", :action => "index" )
 	end
 
@@ -20,6 +20,10 @@ describe "application routing" do
 
 	it "can route list message requests to nested resource" do
 		{ :get => "/chatrooms/def456/messages" }.should route_to :controller => "messages", :action => "index", :room_key => "def456"
+	end
+
+	it "can route to qunit" do
+		{ :get => "/qunit" }.should route_to :controller => "tests", :action => "qunit"
 	end
 
 end
