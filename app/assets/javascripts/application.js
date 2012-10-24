@@ -20,7 +20,7 @@ $(function() {
 
 	// Variable declarations.
 	app.chatroom_id = 0;
-	app.createChatroomUrl = '/chatrooms';
+	app.createChatroomUrl = '';
 	app.createMessageUrl = '/messages';
 	app.display_name = '';
 	app.fetchIntervalInMS = 3000;
@@ -67,8 +67,7 @@ $(function() {
 		$.post(app.createChatroomUrl, { room_name: app.room_name }, function ( response ) {
 			app.chatroom_id = response.id;
 			app.room_key = response.room_key;
-			app.setChatHeader();
-      app.beginFetchingMessages();
+			app.initializeChatroomAfterLoad();
     });
 	};
 
@@ -81,7 +80,7 @@ $(function() {
 	};
 
 	app.fetchNewMessages = function () {
-		var url = app.getMessagesUrl + '?chatroom_id=' + app.chatroom_id + '&' + Math.random();
+		var url = app.getMessagesUrl + '?' + Math.random();
 		$.get( url, function ( response ) {
 			app.appendMessagesToWindow( response );
 		});
@@ -103,6 +102,13 @@ $(function() {
 		return day + '-' + month + '-' + year + ' ' + hours + ':' + minutes + ':' + seconds;
 	};
 
+	app.initializeChatroomAfterLoad = function () {
+		app.setChatHeader();
+		app.setCreateMessageUrl();
+		app.setGetMessagesUrl();
+		app.beginFetchingMessages();
+	},
+
 	app.isKnownId = function ( id ) {
 		var index, returnValue = false;
 		for ( index = 0; index < app.knownIds.length; index += 1 ) {
@@ -121,8 +127,7 @@ $(function() {
 		$.post( app.joinChatroomUrl, chatroomData, function ( response ) {
 			app.chatroom_id = response.id;
 			app.room_name = response.room_name;
-			app.setChatHeader();
-			app.beginFetchingMessages();
+			app.initializeChatroomAfterLoad();
 		});
 	};
 
@@ -189,6 +194,15 @@ $(function() {
 	app.setChatHeader = function () {
 		$( '#chatroom-name' ).html( app.room_name );
 		$( '#chatroom-key' ).html( app.room_key )
+	};
+
+	app.setCreateMessageUrl = function () {
+		app.createMessageUrl = '/chatrooms/' + app.room_key + '/messages';
+		//console.log( 'url: ' + app.createMessageUrl );
+	};
+
+	app.setGetMessagesUrl = function () {
+		app.getMessagesUrl = '/chatrooms/' + app.room_key + '/messages';
 	};
 
   // Page bindings.

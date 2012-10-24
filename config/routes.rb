@@ -1,5 +1,9 @@
 Bbchatter::Application.routes.draw do
 
+  # Nested resources for creating & fetching messages
+  match 'chatrooms/:room_key/messages' => 'messages#index', :via => :get
+  match 'chatrooms/:room_key/messages' => 'messages#create', :via => :post
+
   match 'messages' => 'messages#create', :via => :post
   match 'messages' => 'messages#index', :via => :get
 
