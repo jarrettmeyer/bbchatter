@@ -6,12 +6,12 @@ describe "application routing" do
 		{ :get => "/" }.should route_to( :controller => "home", :action => "index" )
 	end
 
-	it "can route to chatrooms" do
+	it "can route to join chatrooms" do
 		{ :post => "/chatrooms/join" }.should route_to :controller => "chatrooms", :action => "join"
 	end
 
-	it "can route to messages" do
-		{ :get => "/messages" }.should route_to :controller => "messages", :action => "index"
+	it "should not route to message listing" do
+		{ :get => "/messages" }.should_not be_routable
 	end
 
 	it "can route create message requests to nested resource" do
@@ -25,5 +25,9 @@ describe "application routing" do
 	it "can route to qunit" do
 		{ :get => "/qunit" }.should route_to :controller => "tests", :action => "qunit"
 	end
+
+	it "should not route to chatroom listing" do
+		{ :get => "/chatrooms" }.should_not be_routable
+	end 
 
 end
