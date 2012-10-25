@@ -5,6 +5,8 @@ class Chatroom < ActiveRecord::Base
 
   has_many :messages
   
+  validates_presence_of :room_name
+
   before_create :set_room_key
 
   KEY_LENGTH = 20
