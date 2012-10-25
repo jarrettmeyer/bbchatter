@@ -8,6 +8,18 @@ describe Message do
 		message.should_not be_nil
 	end
 
+	it "has a valid factory" do
+		FactoryGirl.build( :message ).should be_valid
+	end
+
+	it "requires text" do
+		FactoryGirl.build( :message, :text => "" ).should_not be_valid
+	end
+
+	it "requires a display name" do
+		FactoryGirl.build( :message, :display_name => "" ).should_not be_valid
+	end
+
 	it "returns itself when created with new values" do
 		message_1 = Message.new
 		message_2 = message_1.with_new_values({})

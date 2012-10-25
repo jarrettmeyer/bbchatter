@@ -32,7 +32,7 @@ $(function() {
 	app.display_name = '';
 	app.fetchIntervalInMS = 3000;
 	app.getMessagesUrl = null;
-	app.joinChatroomUrl = '/chatrooms/join';
+	app.joinChatroomUrl = '';
 	app.knownIds = [];
 	app.room_key = '';
 	app.room_name = '';
@@ -131,7 +131,8 @@ $(function() {
 		var chatroomData = {
 			room_key: app.room_key
 		};
-		$.post( app.joinChatroomUrl, chatroomData, function ( response ) {
+		app.joinChatroomUrl = "/chatrooms/" + app.room_key + "/join";
+		$.post( app.joinChatroomUrl, function ( response ) {
 			app.chatroom_id = response.id;
 			app.room_name = response.room_name;
 			app.initializeChatroomAfterLoad();

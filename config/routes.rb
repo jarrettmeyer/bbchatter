@@ -5,7 +5,7 @@ Bbchatter::Application.routes.draw do
   match 'chatrooms/:room_key/messages' => 'messages#create', :via => :post
 
   match 'chatrooms' => 'chatrooms#create', :via => :post
-  match 'chatrooms/join' => 'chatrooms#join', :via => :post
+  match 'chatrooms/:room_key/join' => 'chatrooms#join', :via => :post
   
   match 'qunit' => 'tests#qunit', :via => :get
   

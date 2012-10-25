@@ -7,7 +7,7 @@ describe "application routing" do
 	end
 
 	it "can route to join chatrooms" do
-		{ :post => "/chatrooms/join" }.should route_to :controller => "chatrooms", :action => "join"
+		{ :post => "/chatrooms/abc123/join" }.should route_to :controller => "chatrooms", :action => "join", :room_key => "abc123"
 	end
 
 	it "should not route to message listing" do
