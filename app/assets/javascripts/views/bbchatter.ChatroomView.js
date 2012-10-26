@@ -6,15 +6,25 @@ $(function ( $ ) {
   // The ChatRoomView is the wrapper for the application.
   bbchatter.ChatroomView = Backbone.View.extend({
 
-    createMessageUrl: '/messages',
+    createMessageUrl: '',
     el: "#chatroom",
-    latestMessagesUrl: '/messages/latest',
-    messageInput: $( '#message-text' ),
+    fetchMessagesUrl: '',
     messages: [],
     model: null,
 
+    events: {
+      "click input[name=room_type]": "onRoomTypeClicked",
+      "click #start-chatting": "onStartChattingClicked"
+    },
+
     initialize: function ( options ) {
+      console.log( "initializing ChatroomView" );
+      
+      this.messageInput = $( "#message-text" );
+
       this.model = ( options && options.model ) || new bbchatter.Chatroom();
+
+      
     },
 
     addMessage: function ( messageText ) {
@@ -34,6 +44,11 @@ $(function ( $ ) {
       return messageView;
     },
 
+    createChatroom: function () {
+      console.log( "in createChatroom" );
+      this.model.set( "room_name", $( "#room_name" ).val() );
+    },
+
     fetchLatestMessages: function () {
       var index, self = this, message;
       $.get(this.latestMessagesUrl, function ( response ) {
@@ -42,6 +57,32 @@ $(function ( $ ) {
           self.model.addMessage( message );
         }
       });
+    },
+
+    onRoomTypeClicked: function ( e ) {
+      this.room_type = $( "input[name=room_type]:checked" ).val();
+      console.log( "room type: " + this.room_type );
+    },
+
+    onStartChattingClicked: function ( e ) {
+      console.log( "onStartChattingClicked" );
+      e.preventDefault();
+      e.stopPropagation();
+
+      switch (this.room_type) {
+        case "create":
+          this.createChatroom();
+          break;
+        case "join"
+          this.joinChatroom();
+          break;
+      }
+
+      return false;
+    },
+
+    joinChatroom: function () {
+      console.log( "joinChatroom" );
     }
 
   });
