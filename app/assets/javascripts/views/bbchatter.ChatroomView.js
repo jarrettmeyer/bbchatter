@@ -9,7 +9,7 @@ $(function ( $ ) {
     createChatroomUrl: '/chatrooms',
     createMessageUrl: '',
     el: "#chatroom",
-    fetchIntervalInMS: 30000,
+    fetchIntervalInMS: 3000,
     messageInput: $( '#message-text' ),
     messages: [],
     model: null,
@@ -59,8 +59,8 @@ $(function ( $ ) {
           self = this;
 
       $.post(this.createMessageUrl, message.toJSON(), function ( response ) { 
-        console.log( 'created new message: ' + response.id );
         message.set( 'id', response.id );
+        message.set( 'created_at', response.created_at );
         self.createMessageView( message );
       });
     },

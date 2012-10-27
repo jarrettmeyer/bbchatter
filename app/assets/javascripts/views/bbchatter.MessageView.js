@@ -13,13 +13,21 @@ $(function () {
     template: _.template( $( '#message-template' ).html() ),
 
     initialize: function () {
-      this.on( 'change', 'render' );
+      this.on( 'model:change', 'render' );
+    },
+
+    isMessageOwned: function () {
+      return this.model && this.model.get( 'is_owned' );
     },
 
     render: function () {
-      console.log( 'render message: ' + this.model.get( 'id' ) );
       var json = this.model.toJSON();
       this.$el.html( this.template( json ) );
+      
+      if ( this.isMessageOwned() ) {
+        this.$el.addClass( 'owned' );
+      }
+
       return this;
     }
 
