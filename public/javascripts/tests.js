@@ -177,6 +177,24 @@ $(function () {
     equal( $( 'div.message', $fixture ).length, 1 );
   });
 
+  test( 'when message is owned, class is added to view', function () {
+    var $fixture = $( '#qunit-fixture' );
+    var message = new bbchatter.Message({ text: 'text', is_owned: true });
+    var view = new bbchatter.MessageView({ model: message });
+    view.render();
+    var cls = view.$el.attr('class');
+    ok( cls.indexOf(' owned') > 0 );
+  });
+
+  test( 'when message is not owned, class is not added to view', function () {
+    var $fixture = $( '#qunit-fixture' );
+    var message = new bbchatter.Message({ text: 'text', is_owned: false });
+    var view = new bbchatter.MessageView({ model: message });
+    view.render();
+    var cls = view.$el.attr('class');
+    ok( cls.indexOf(' owned') == -1 );
+  })
+
   // --------------------------------------------------------------------------
   // Chatroom View Tests
   module( "Chatroom View Tests" );
@@ -203,7 +221,6 @@ $(function () {
     var view = new bbchatter.ChatroomView({ model: chatroom });
     equal( view.model.get('id'), 5 );
   });
-
 
 });
 
