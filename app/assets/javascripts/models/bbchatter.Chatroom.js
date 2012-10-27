@@ -14,6 +14,8 @@ var bbchatter = bbchatter || {};
     },
 
     initialize: function () {
+      // If the message collection has not been created, then set
+      // a new instance.
       if ( !this.get( 'messages' )) {
         this.set( 'messages', new bbchatter.MessageCollection() );
       }
@@ -34,7 +36,7 @@ var bbchatter = bbchatter || {};
       return returnValue;
     },
 
-    // Build message functions similarly to the Rail association
+    // Build message functions similarly to the Rails association
     // build() method.
     buildMessage: function( messageProperties ) {
       var message = new bbchatter.Message( messageProperties );

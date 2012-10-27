@@ -16,28 +16,12 @@ $(function ( $ ) {
 
     events: {
       "click input[name=room_type]": "selectRoomType",
-      "click #start-chatting": "startChatting"
+      "click #start-chatting": "startChatting",
+      "submit #chatter-form": "submitChatterForm"
     },
 
     initialize: function ( options ) {
       this.model = this.model || new bbchatter.Chatroom();
-    },
-
-    addMessage: function ( messageText ) {
-      var message = new bbchatter.Message({ text: messageText, is_owned: true }),
-          messageView,
-          self = this;
-
-      this.model.addMessage( message );
-
-      $.post(this.createMessageUrl, message.toJSON(), function ( response ) { 
-        message.set( 'id', response.id );
-      });
-
-      messageView = new bbchatter.MessageView({ model: message })
-      messageView.render();
-      
-      return messageView;
     },
 
     beginFetchingMessages: function () {
@@ -66,6 +50,19 @@ $(function ( $ ) {
       });
     },
 
+    createMessage: function ( messageText ) {
+      var message = this.model.buildMessage({ text: messageText, is_owned: true }),
+          messageView,
+          self = this;
+
+      $.post(this.createMessageUrl, message.toJSON(), function ( response ) { 
+        message.set( 'id', response.id );
+      });
+
+      messageView = new bbchatter.MessageView({ model: message })
+      messageView.render();
+    },
+
     initializeChatroomAfterLoad: function () {
       this.setChatHeader();
       this.setCreateMessageUrl();
@@ -85,6 +82,10 @@ $(function ( $ ) {
 
     removeOverlay: function () {
       $( '#overlay' ).hide();
+    },
+
+    resetMessageForm: function () {
+      this.messageInput.val('');
     },
 
     selectRoomType: function () {
@@ -110,7 +111,6 @@ $(function ( $ ) {
     },
 
     startChatting: function ( ) {
-      console.log( 'start chatting' );
       this.model.set( 'display_name', $( '#display_name' ).val() );
 
       if ( this.model.get( 'room_type' ) === 'create') {
@@ -121,6 +121,18 @@ $(function ( $ ) {
         this.joinChatroom();
       }
       this.removeOverlay();
+    },
+
+    submitChatterForm: function ( e ) {
+      var messageText = this.messageInput.val();
+
+      e.preventDefault();
+      e.stopPropagation();
+
+      this.createMessage( messageText );
+      this.resetMessageForm();
+
+      return false;
     }
 
   });
