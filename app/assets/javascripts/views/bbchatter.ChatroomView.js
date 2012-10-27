@@ -21,7 +21,6 @@ $(function ( $ ) {
     },
 
     initialize: function ( options ) {
-      console.log( "initializing ChatroomView" );
       this.model = this.model || new bbchatter.Chatroom();
     },
 
@@ -43,7 +42,19 @@ $(function ( $ ) {
     },
 
     beginFetchingMessages: function () {
-      window.setInterval( this.fetchNewMessages, this.fetchIntervalInMS );
+      var self = this,
+          index, 
+          message,
+          url = '/chatrooms/' + this.model.get ( 'room_key' ) + '/messages?' + Math.random();
+
+      window.setInterval( function () { 
+        $.get( url, function ( response ) {
+          for ( index = 0; index < response.length; index += 1 ) {
+            message = new bbchatter.Message( response[index] );
+            self.model.addMessage( message );
+          }
+        });
+      }, self.fetchIntervalInMS );
     },
 
     createChatroom: function () {
@@ -56,16 +67,6 @@ $(function ( $ ) {
       });
     },
 
-    fetchNewMessages: function () {
-      var index, self = this, message;
-      $.get( this.latestMessagesUrl, function ( response ) {
-        for ( index = 0; index < response.length; index += 1 ) {
-          message = new bbchatter.Message( response[index] );
-          self.model.addMessage( message );
-        }
-      });
-    },
-
     initializeChatroomAfterLoad: function () {
       this.setChatHeader();
       this.setCreateMessageUrl();
@@ -74,7 +75,14 @@ $(function ( $ ) {
     },
 
     joinChatroom: function () {
-      console.log( "joinChatroom" );
+      var self = this,
+          url = '/chatrooms/' + self.model.get( 'room_key' ) + '/join';
+      
+      $.post( url, function ( response ) {
+        self.model.set( 'id', response.id );
+        self.model.set( 'room_name', response.room_name);
+        self.initializeChatroomAfterLoad();
+      });
     },
 
     removeOverlay: function () {
@@ -83,7 +91,7 @@ $(function ( $ ) {
 
     selectRoomType: function () {
       var room_type = $( 'input[name=room_type]:checked' ).val();
-      console.log( "select room type: " + room_type );
+      
       this.model.set( 'room_type', room_type );
       if ( room_type === 'create' ) {
         $( '#room_key_fields' ).slideUp();
