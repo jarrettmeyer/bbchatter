@@ -9,7 +9,7 @@ $(function ( $ ) {
     createChatroomUrl: '/chatrooms',
     createMessageUrl: '',
     el: "#chatroom",
-    fetchIntervalInMS: 3000,
+    fetchIntervalInMS: 30000,
     messageInput: $( '#message-text' ),
     messages: [],
     model: null,
@@ -28,13 +28,16 @@ $(function ( $ ) {
       var self = this,
           index, 
           message,
+          messageView,
           url = '/chatrooms/' + this.model.get ( 'room_key' ) + '/messages?' + Math.random();
 
       window.setInterval( function () { 
         $.get( url, function ( response ) {
           for ( index = 0; index < response.length; index += 1 ) {
             message = new bbchatter.Message( response[index] );
-            self.model.addMessage( message );
+            if ( self.model.addMessage( message ) ) {
+              self.createMessageView( message );
+            }
           }
         });
       }, self.fetchIntervalInMS );
@@ -56,11 +59,16 @@ $(function ( $ ) {
           self = this;
 
       $.post(this.createMessageUrl, message.toJSON(), function ( response ) { 
+        console.log( 'created new message: ' + response.id );
         message.set( 'id', response.id );
+        self.createMessageView( message );
       });
+    },
 
-      messageView = new bbchatter.MessageView({ model: message })
+    createMessageView: function ( message ) {
+      var messageView = new bbchatter.MessageView({ model: message });
       messageView.render();
+      $( '#messages' ).append( messageView.$el );
     },
 
     initializeChatroomAfterLoad: function () {

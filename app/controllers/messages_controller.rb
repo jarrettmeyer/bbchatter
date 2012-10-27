@@ -13,7 +13,7 @@ class MessagesController < ApplicationController
     @message = @chatroom.messages.build.with_new_values params
     @message.save!
 
-    render :json => [ @message ], :status => :created
+    render :json => @message, :status => :created
   end
 
 private

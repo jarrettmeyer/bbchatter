@@ -9,17 +9,17 @@ $(function () {
     
     className: 'message',
     
-    container: $( '#messages' ),
-
     // Cache the template for showing a single item.
     template: _.template( $( '#message-template' ).html() ),
 
+    initialize: function () {
+      this.on( 'change', 'render' );
+    },
+
     render: function () {
-      var content = this.template( this.model.toJSON() );
-      console.log( 'content: ' + content );
-      console.log( 'container: ' + this.container.html() );
-      this.container.append( content );
-      console.log( 'rendered message: ' + this.model.get( 'text' ) );
+      console.log( 'render message: ' + this.model.get( 'id' ) );
+      var json = this.model.toJSON();
+      this.$el.html( this.template( json ) );
       return this;
     }
 
