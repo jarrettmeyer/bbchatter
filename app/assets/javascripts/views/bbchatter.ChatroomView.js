@@ -10,7 +10,6 @@ $(function ( $ ) {
     createMessageUrl: '',
     el: "#chatroom",
     fetchIntervalInMS: 3000,
-    getMessagesUrl: '',
     messageInput: $( '#message-text' ),
     messages: [],
     model: null,
@@ -70,7 +69,6 @@ $(function ( $ ) {
     initializeChatroomAfterLoad: function () {
       this.setChatHeader();
       this.setCreateMessageUrl();
-      this.setGetMessagesUrl();
       this.beginFetchingMessages();
     },
 
@@ -109,10 +107,6 @@ $(function ( $ ) {
 
     setCreateMessageUrl: function () {
       this.createMessageUrl = '/chatrooms/' + this.model.get ( 'room_key' ) + '/messages';
-    },
-
-    setGetMessagesUrl: function () {
-      this.getMessagesUrl = '/chatrooms/' + this.model.get ( 'room_key' ) + '/messages';
     },
 
     startChatting: function ( ) {
