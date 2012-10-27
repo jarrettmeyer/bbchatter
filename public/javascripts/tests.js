@@ -172,8 +172,8 @@ $(function () {
     var $fixture = $( '#qunit-fixture' );
     var message = new bbchatter.Message({ text: 'this is a test' });
     var view = new bbchatter.MessageView({ model: message });
-    view.container = $fixture;
-    view.render();    
+    view.render();
+    $fixture.append( view.$el );
     equal( $( 'div.message', $fixture ).length, 1 );
   });
 
