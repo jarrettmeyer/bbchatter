@@ -6,25 +6,23 @@ $(function ( $ ) {
   // The ChatRoomView is the wrapper for the application.
   bbchatter.ChatroomView = Backbone.View.extend({
 
+    createChatroomUrl: '/chatrooms',
     createMessageUrl: '',
     el: "#chatroom",
-    fetchMessagesUrl: '',
+    fetchIntervalInMS: 3000,
+    getMessagesUrl: '',
+    messageInput: $( '#message-text' ),
     messages: [],
     model: null,
 
     events: {
-      "click input[name=room_type]": "onRoomTypeClicked",
-      "click #start-chatting": "onStartChattingClicked"
+      "click input[name=room_type]": "selectRoomType",
+      "click #start-chatting": "startChatting"
     },
 
     initialize: function ( options ) {
       console.log( "initializing ChatroomView" );
-      
-      this.messageInput = $( "#message-text" );
-
-      this.model = ( options && options.model ) || new bbchatter.Chatroom();
-
-      
+      this.model = this.model || new bbchatter.Chatroom();
     },
 
     addMessage: function ( messageText ) {
@@ -44,45 +42,83 @@ $(function ( $ ) {
       return messageView;
     },
 
-    createChatroom: function () {
-      console.log( "in createChatroom" );
-      this.model.set( "room_name", $( "#room_name" ).val() );
+    beginFetchingMessages: function () {
+      window.setInterval( this.fetchNewMessages, this.fetchIntervalInMS );
     },
 
-    fetchLatestMessages: function () {
+    createChatroom: function () {
+      var self = this;
+      
+      $.post( this.createChatroomUrl, { room_name: this.model.get( 'room_name' ) }, function ( response ) {
+        self.model.set( 'id', response.id );
+        self.model.set( 'room_key', response.room_key );
+        self.initializeChatroomAfterLoad();
+      });
+    },
+
+    fetchNewMessages: function () {
       var index, self = this, message;
-      $.get(this.latestMessagesUrl, function ( response ) {
-        for (index = 0; index < response.length; index += 1) {
+      $.get( this.latestMessagesUrl, function ( response ) {
+        for ( index = 0; index < response.length; index += 1 ) {
           message = new bbchatter.Message( response[index] );
           self.model.addMessage( message );
         }
       });
     },
 
-    onRoomTypeClicked: function ( e ) {
-      this.room_type = $( "input[name=room_type]:checked" ).val();
-      console.log( "room type: " + this.room_type );
-    },
-
-    onStartChattingClicked: function ( e ) {
-      console.log( "onStartChattingClicked" );
-      e.preventDefault();
-      e.stopPropagation();
-
-      switch (this.room_type) {
-        case "create":
-          this.createChatroom();
-          break;
-        case "join"
-          this.joinChatroom();
-          break;
-      }
-
-      return false;
+    initializeChatroomAfterLoad: function () {
+      this.setChatHeader();
+      this.setCreateMessageUrl();
+      this.setGetMessagesUrl();
+      this.beginFetchingMessages();
     },
 
     joinChatroom: function () {
       console.log( "joinChatroom" );
+    },
+
+    removeOverlay: function () {
+      $( '#overlay' ).hide();
+    },
+
+    selectRoomType: function () {
+      var room_type = $( 'input[name=room_type]:checked' ).val();
+      console.log( "select room type: " + room_type );
+      this.model.set( 'room_type', room_type );
+      if ( room_type === 'create' ) {
+        $( '#room_key_fields' ).slideUp();
+        $( '#room_name_fields' ).slideDown();
+      } else {
+        $( '#room_name_fields' ).slideUp();
+        $( '#room_key_fields' ).slideDown();
+      }
+    },
+
+    setChatHeader: function () {
+      $( '#chatroom-name' ).html( this.model.get( 'room_name' ) );
+      $( '#chatroom-key' ).html( this.model.get( 'room_key' ) );
+    },
+
+    setCreateMessageUrl: function () {
+      this.createMessageUrl = '/chatrooms/' + this.model.get ( 'room_key' ) + '/messages';
+    },
+
+    setGetMessagesUrl: function () {
+      this.getMessagesUrl = '/chatrooms/' + this.model.get ( 'room_key' ) + '/messages';
+    },
+
+    startChatting: function ( ) {
+      console.log( 'start chatting' );
+      this.model.set( 'display_name', $( '#display_name' ).val() );
+
+      if ( this.model.get( 'room_type' ) === 'create') {
+        this.model.set( 'room_name', $( '#room_name' ).val() );
+        this.createChatroom();
+      } else {
+        this.model.set( 'room_key', $( '#room_key' ).val() );
+        this.joinChatroom();
+      }
+      this.removeOverlay();
     }
 
   });

@@ -9,7 +9,8 @@ var bbchatter = bbchatter || {};
       id: 0,
       messages: null,
       room_key: '',
-      room_name: ''    
+      room_name: '',
+      room_type: 'create'    
     },
 
     initialize: function () {
