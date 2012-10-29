@@ -30,4 +30,8 @@ describe "application routing" do
 		{ :get => "/chatrooms" }.should_not be_routable
 	end 
 
+	it "can route to the about page" do
+		{ :get => "/about" }.should route_to :controller => "home", :action => "about"
+	end
+
 end

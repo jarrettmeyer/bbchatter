@@ -50,6 +50,18 @@ html, body { margin: 0; padding: 0; }
 /* header */
 #chatroom-name { font-size: 18px; font-weight: bold; text-align: center; }
 #chatroom-key { font-size: 12px; color: #808080; text-align: center; }
+#goto-about {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+}
+#goto-about a {
+	text-decoration: none;
+}
+#goto-about a:hover {
+	background-color: transparent;
+	color: #456ac7;
+}
 
 label.radio {
 	display: block;

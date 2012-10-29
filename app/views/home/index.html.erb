@@ -2,6 +2,12 @@
 	<div id="chatroom-header">
 		<div id="chatroom-name"></div>
 		<div id="chatroom-key"></div>
+		<div id="goto-about">
+			<%= link_to about_path do %>
+				<%= image_tag "information.png" %>
+				About
+			<% end %>
+		</div>
 	</div>
 	<div id="chatroom-window">
 		<div id="messages"></div>
