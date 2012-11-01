@@ -25,9 +25,14 @@ private
   def get_messages( room_key )
     # Get messages for the last 10 seconds.
     since = Time.now - 10
-    chatroom_id = Chatroom.find_by_room_key room_key
-    messages = Message.where("chatroom_id = ? and created_at >= ?", chatroom_id, since)
-    messages
+    chatroom = Chatroom.find_by_room_key room_key
+    if chatroom
+      chatroom.touch
+      messages = chatroom.messages.where("created_at >= ?", since)
+      messages
+    else
+      []
+    end
   end
 
 end
