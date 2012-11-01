@@ -3,6 +3,8 @@ class MessagesController < ApplicationController
   def index
     @room_key = params[ :room_key ]
     @messages = get_messages @room_key
+    add_message_ids_to_cache @messages.map { |m| m.id }
+
     render :json => @messages, :status => :ok
   end
 
@@ -12,6 +14,7 @@ class MessagesController < ApplicationController
     @chatroom = Chatroom.find_by_room_key @room_key
     @message = @chatroom.messages.build.with_new_values params
     @message.save!
+    add_message_id_to_cache @message.id
 
     render :json => @message, :status => :created
   end
@@ -29,6 +32,18 @@ private
     else
       []
     end
+  end
+
+  def add_message_id_to_cache(message_id)
+    if session[:message_ids]
+      session[:message_ids] << message_id
+    else
+      session[:message_ids] = [message_id]
+    end
+  end
+
+  def add_message_ids_to_cache(message_ids)
+    message_ids.each { |id| add_message_id_to_cache id }
   end
 
 end

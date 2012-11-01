@@ -25,6 +25,18 @@ describe MessagesController, type: :controller do
 			response.status.should == 200 # 200 = OK
 		end
 
+		it "adds fetched message IDs cache" do
+			chatroom = create_chatroom
+			message = chatroom.messages.build
+			message.text = "Testing a message"
+			message.display_name = "jdoe"
+			message.save!
+
+			get :index, room_key: chatroom.room_key
+
+			session[:message_ids].should include message.id
+		end
+
 	end
 
 	describe 'POST /messages' do
@@ -45,6 +57,13 @@ describe MessagesController, type: :controller do
 			chatroom = create_chatroom
 			post :create, room_key: chatroom.room_key, display_name: "John Doe", text: "Hello, World!"
 			response.status.should == 201 # 201 = created
+		end
+
+		it "adds message id to cache" do
+			chatroom = create_chatroom
+			post :create, room_key: chatroom.room_key, display_name: "John Doe", text: "Hello, World!"
+			message_id = assigns(:message).id
+			session[:message_ids].should include message_id
 		end
 
 	end
