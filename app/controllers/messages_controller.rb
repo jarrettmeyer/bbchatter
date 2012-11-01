@@ -3,7 +3,7 @@ class MessagesController < ApplicationController
   def index
     @room_key = params[ :room_key ]
     @messages = get_messages @room_key
-    add_message_ids_to_cache @messages.map { |m| m.id }
+    add_message_ids_to_cache @messages.map &:id
 
     render :json => @messages, :status => :ok
   end
