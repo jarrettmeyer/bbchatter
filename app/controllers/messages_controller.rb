@@ -22,13 +22,10 @@ class MessagesController < ApplicationController
 private
 
   def get_messages( room_key )
-    # Get messages for the last 10 seconds.
-    since = Time.now - 10
     chatroom = Chatroom.find_by_room_key room_key
     if chatroom
       chatroom.touch
-      message_ids = session[:message_ids] || [-1]
-      messages = chatroom.messages.where("created_at >= ? and id not in (?)", since, message_ids)
+      messages = chatroom.messages.find_latest session[:message_ids]
       messages
     else
       []
