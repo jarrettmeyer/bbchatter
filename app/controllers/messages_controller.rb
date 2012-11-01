@@ -18,10 +18,6 @@ class MessagesController < ApplicationController
 
 private
 
-  def get_chatroom_id( params )
-    chatroom_id = params[ :chatroom_id ].to_i
-  end
-
   def get_messages( room_key )
     # Get messages for the last 10 seconds.
     since = Time.now - 10
