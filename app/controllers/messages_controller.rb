@@ -27,7 +27,8 @@ private
     chatroom = Chatroom.find_by_room_key room_key
     if chatroom
       chatroom.touch
-      messages = chatroom.messages.where("created_at >= ?", since)
+      message_ids = session[:message_ids] || [-1]
+      messages = chatroom.messages.where("created_at >= ? and id not in (?)", since, message_ids)
       messages
     else
       []
