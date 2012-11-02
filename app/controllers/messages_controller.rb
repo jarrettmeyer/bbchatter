@@ -33,11 +33,8 @@ private
   end
 
   def add_message_id_to_cache(message_id)
-    if session[:message_ids]
-      session[:message_ids] << message_id
-    else
-      session[:message_ids] = [message_id]
-    end
+    session[:message_ids] ||= []
+    session[:message_ids] << message_id
   end
 
   def add_message_ids_to_cache(message_ids)
