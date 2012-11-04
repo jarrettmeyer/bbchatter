@@ -1,6 +1,6 @@
 class Message < ActiveRecord::Base
 
-	# Associations
+  # Associations
   belongs_to :chatroom
 
   # Validations
