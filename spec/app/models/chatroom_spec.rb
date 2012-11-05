@@ -25,4 +25,14 @@ describe Chatroom do
 		chatroom.new_record?.should be_false
 	end
 
+  it "can delete old chatrooms" do
+    chatroom = FactoryGirl.build :chatroom
+    chatroom.save!
+    one_hour_from_now = Time.now + 3600
+    Time.stub!(:now).and_return(one_hour_from_now)
+    Chatroom.destroy_all_older_than 20
+    Chatroom.count.should == 0
+  end
+
 end
+

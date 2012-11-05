@@ -25,6 +25,6 @@ var app = {};
 $(function() {
 	'use strict';
 
+  // Start up a new chatroom view
 	app.chatroom = new bbchatter.ChatroomView();
-
 });
