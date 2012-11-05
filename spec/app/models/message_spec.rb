@@ -44,4 +44,13 @@ describe Message do
 		message.chatroom_id.should be_nil
 	end
 
+  it "find latest does not return old messages" do
+    message = FactoryGirl.build :message
+    message.save!
+    time_in_future = 1.minute.from_now
+    Time.stub!(:now).and_return(time_in_future)
+    messages = Message.find_latest
+    messages.count.should == 0
+  end
+
 end

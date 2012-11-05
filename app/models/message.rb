@@ -29,4 +29,6 @@ end
 # text: text
 # display_name: string
 # ip_address: string
+# created_at: datetime
+# updated_at: datetime
 
