@@ -15,7 +15,7 @@ class Message < ActiveRecord::Base
     self.where("created_at >= ? and id not in (?)", since, message_ids)
   end
 
-  def with_new_values( params )
+  def with_new_values(params)
   	raise "Unable to set values on existing record" unless new_record?
 
   	self.text = params[:text]
